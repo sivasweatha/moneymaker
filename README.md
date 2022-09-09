@@ -1,1 +1,1 @@
-# algo-trading
+# Money Maker
