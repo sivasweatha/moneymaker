@@ -1,9 +1,6 @@
 import pandas as pd
-import datetime as dt
-import numpy as np
 from pandas_datareader import data as pdr
 import yfinance as yf
-import re
 
 yf.pdr_override()
 
@@ -25,13 +22,25 @@ def getData(stocks=[], interval='5m', period='200m'):
     )
     return df
 
-dfJson = getData(stock, '5m', '200m').to_dict("records")
+def findRbi(data):
+    dfJson = data.to_dict("records")
 
-gbis = []
-i = len(dfJson) - 1
-while i >= 0:
-    candle = dfJson.pop(i)
-    if((['Color'] == "green") and (candle['Open'] < dfJson[i-1]['Close'])):
-        gbis.append({candle1: dfJson[i-2]["Time"], candle2: dfJson[i-i]["Time"], candle3: candle["Time"]})
-    i = i - 1
-print(gbis)
+    rbis = []
+    i = len(dfJson) - 1
+    while i >= 0:
+        candle = dfJson.pop(i)
+        if (i != 0):
+            if(
+                (candle['Color'] == "green") and
+                (candle['Close'] > dfJson[i-1]['Open']) and
+                (dfJson[i-1]['Color'] == "red") and
+                (dfJson[i-2]['Color'] == "green")
+            ):
+                rbis.append({'candle1': dfJson[i-2]["Time"],
+                            'candle2': dfJson[i-1]["Time"],
+                            'candle3': candle["Time"]
+                })
+        i = i - 1
+    return rbis
+
+print(findRbi(getData(stock)))

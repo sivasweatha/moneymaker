@@ -1,0 +1,126 @@
+{
+    "orderMap": {
+        "Buy": "Sell",
+        "Sell": "Buy"
+    },
+    "stockClosingMap": {
+        "NIFTY50": 1530,
+        "NIFTYBANK": 1530,
+        "ASIANPAINT": 1530,
+        "HDFCBANK": 1530,
+        "IDFCFIRSTB": 1530,
+        "PNB": 1530,
+        "AAPL": 230,
+        "INTC": 230,
+        "PYPL": 230,
+        "BTCUSD": 2400,
+        "TESLA": 230,
+        "SAIL": 1530,
+        "ICICIBANK": 1530,
+        "WIPRO": 1530
+    },
+    "ordersClosingMap": {
+        "NIFTY50": 1500,
+        "NIFTYBANK": 1500,
+        "ASIANPAINT": 1500,
+        "HDFCBANK": 1500,
+        "IDFCFIRSTB": 1500,
+        "PNB": 1500,
+        "AAPL": 230,
+        "INTC": 230,
+        "PYPL": 230,
+        "BTCUSD": 2400,
+        "TESLA": 230,
+        "SAIL": 1500,
+        "ICICIBANK": 1500,
+        "WIPRO": 1500
+    },
+    "stockOpeningMap": {
+        "NIFTY50": 920,
+        "NIFTYBANK": 920,
+        "ASIANPAINT": 920,
+        "HDFCBANK": 920,
+        "IDFCFIRSTB": 920,
+        "PNB": 920,
+        "AAPL": 805,
+        "INTC": 805,
+        "PYPL": 805,
+        "BTCUSD": 5,
+        "TESLA": 805,
+        "SAIL": 920,
+        "ICICIBANK": 920,
+        "WIPRO": 920
+    },
+    "stockCodes": {
+        "NIFTY50": {
+            "yfinance": "^NSEI",
+            "icici": "NIFTY",
+            "tvPaperTrader": "NIFTY"
+        },
+        "NIFTYBANK": {
+            "yfinance": "^NSEBANK",
+            "icici": "CNXBAN",
+            "tvPaperTrader": "BANKNIFTY"
+        },
+        "ASIANPAINT": {
+            "yfinance": "ASIANPAINT.NS",
+            "icici": "ASIPAI",
+            "tvPaperTrader": "ASIANPAINT"
+        },
+        "HDFCBANK": {
+            "yfinance": "HDFCBANK.NS",
+            "icici": "HDFBAN",
+            "tvPaperTrader": "HDFCBANK"
+        },
+        "IDFCFIRSTB": {
+            "yfinance": "IDFCFIRSTB.NS",
+            "icici": "IDFBAN",
+            "tvPaperTrader": "IDFCFIRSTB"
+        },
+        "PNB": {
+            "yfinance": "PNB.NS",
+            "icici": "PUNBAN",
+            "tvPaperTrader": "PNB"
+        },
+        "AAPL": {
+            "yfinance": "AAPL",
+            "icici": "None",
+            "tvPaperTrader": "AAPL"
+        },
+        "INTC": {
+            "yfinance": "INTC",
+            "icici": "None",
+            "tvPaperTrader": "INTC"
+        },
+        "PYPL": {
+            "yfinance": "PYPL",
+            "icici": "None",
+            "tvPaperTrader": "PYPL"
+        },
+        "BTCUSD": {
+            "yfinance": "BTC-USD",
+            "icici": "None",
+            "tvPaperTrader": "BTCUSD"
+        },
+        "TESLA": {
+            "yfinance": "TSLA",
+            "icici": "None",
+            "tvPaperTrader": "TSLA"
+        },
+        "SAIL": {
+            "yfinance": "SAIL.NS",
+            "icici": "SAIL",
+            "tvPaperTrader": "SAIL"
+        },
+        "ICICIBANK": {
+            "yfinance": "ICICIBANK.NS",
+            "icici": "ICIBAN",
+            "tvPaperTrader": "ICICIBANK"
+        },
+        "WIPRO": {
+            "yfinance": "WIPRO.NS",
+            "icici": "WIPRO",
+            "tvPaperTrader": "WIPRO"
+        }
+    }
+}
