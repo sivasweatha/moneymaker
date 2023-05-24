@@ -9,6 +9,7 @@ Money Maker is a quantitative trading system that connects with ICICI Breeze Con
 - [Usage](#usage)
 - [Features](#features)
 - [Flowchart Diagram](#flowchart-diagram)
+- [Trading Statistics](#trading-statistics)
 
 ## Installation
 
@@ -59,5 +60,5 @@ These are the trading statistics from backtesting on AAPL and TESLA for the past
 
 | Strategy | Stoploss and Target | Profitability Ratio (Profit:Total Trades)|
 |-----------------|-----------------|-----------------|
-| Buy above, Short below VWAP | 1:2 ratio stoploss and target | approx. 1:2500 |
+| Buy above, Short below VWAP | 1:2 ratio stoploss and target | approx. 15:27209 |
 | Buy above, Short below EMA | nearest CPR as stoploss and target | 4178:27209 (not enough to overcome the losses) |
