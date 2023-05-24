@@ -2,10 +2,11 @@ from pandas_datareader import data as pdr
 import yfinance as yf
 from datetime import datetime as dt
 from time import sleep
+from maps import ordersClosingMap
 yf.pdr_override()
 class YahooFinance:
     onTicks = lambda ticks: None
-    whenClose = lambda: None
+    whenClose = lambda self, stock: ordersClosingMap.get(stock) >= dt.now().hour * 100 + dt.now().minute
     onClose = lambda: None
     waitForNextCandle = lambda self, minute, seconds, wait=300: (wait - (minute % 10) * 60 - seconds) % wait if (minute % 5 != 0) or (seconds != 0) else 0
 
@@ -28,17 +29,17 @@ class YahooFinance:
         return histdf
 
     def subscribeFeeds(self, stock, interval):
-        intervalToSecMap = {
-                '5m': 300,
-                '1m': 60,
-                '1s': 1,
-                '30m': 1800
-            }
+        self.sleepUntilNextCandle(interval)
         while True:
-            if self.whenClose():
+            if self.whenClose(stock):
                 self.onClose()
                 break
-            lastCandle = self.getData(stock, interval)[-2]
-            self.onTicks(lastCandle)
-            now = dt.now()
-            sleep(self.waitForNextCandle(now.minute, now.second, intervalToSecMap[interval]))
+            data = self.getData(stock, interval)
+            lastCandle = data[-2]
+            self.onTicks(lastCandle, data)
+            self.sleepUntilNextCandle(interval)
+
+    def sleepUntilNextCandle(self, interval):
+        time_value = int(interval[:-1]) * 60
+        now = dt.now()
+        sleep(self.waitForNextCandle(now.minute, now.second, time_value))

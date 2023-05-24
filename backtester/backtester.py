@@ -1,7 +1,6 @@
 import csv
 from datetime import datetime
 import pandas as pd
-import numpy as np
 
 class VWAPStrategy:
     def __init__(self):
@@ -108,6 +107,33 @@ class VWAPStrategy:
                 if 'profit' in profit:
                     writer.writerow([profit['time'], profit['profit']])
 
+    def profit_calculator(result):
+        for result in result:
+            f = open("data-new.txt", "a")
+            f.write(str(result)+"\n")
+            f.close()
+
+        total = 0
+        with open('profits-new.csv') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)
+            for row in reader:
+                total += float(row[1])
+        return total
+
+    def plot_data():
+        import plotly.graph_objs as go
+        df = pd.read_csv('vwap.csv').head(400)
+
+        fig = go.Figure(data=[go.Candlestick(x=df['time'],
+                    open=df['open'], high=df['high'],
+                    low=df['low'], close=df['close'])])
+
+        fig.add_trace(go.Scatter(x=df['time'], y=df['vwap'],
+                    mode='lines', name='VWAP'))
+
+        fig.show()
+
     def backtest(self):
         orders = []
         profit = []
@@ -140,77 +166,6 @@ class VWAPStrategy:
 strategy = VWAPStrategy()
 result = strategy.backtest()
 
-# Calculate profits
-for result in result:
-    f = open("data-new.txt", "a")
-    f.write(str(result)+"\n")
-    f.close()
+print(strategy.profit_calculator(result))
 
-total = 0
-with open('profits-new.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    next(reader)
-    for row in reader:
-        total += float(row[1])
-print(total)
-
-
-# Plot data
-# import plotly.graph_objs as go
-
-# df = pd.read_csv('vwap.csv').head(400)
-
-# fig = go.Figure(data=[go.Candlestick(x=df['time'],
-#                 open=df['open'], high=df['high'],
-#                 low=df['low'], close=df['close'])])
-
-# fig.add_trace(go.Scatter(x=df['time'], y=df['vwap'],
-#                 mode='lines', name='VWAP'))
-
-# fig.show()
-
-
-    # def set_stoploss(self, side, price):
-    #     stop_loss_price = None
-    #     if side == 'buy':
-    #         stop_loss_price = price - 2
-    #     elif side == 'sell':
-    #         stop_loss_price = price + 2
-    #     return stop_loss_price
-
-    # def set_target(self, side, price):
-    #     target_price = None
-    #     if side == 'buy':
-    #         target_price = price + 4
-    #     elif side == 'sell':
-    #         target_price = price - 4
-    #     return target_price
-
-
-# def set_stoploss(self, side, pivot, vwap):
-#         stop_loss_price = None
-#         if side == 'buy':
-#             ranges = [range for range in pivot.values() if range < vwap]
-#             if ranges:
-#                 stop_loss_price = max(ranges)
-#         elif side == 'sell':
-#             ranges = [range for range in pivot.values() if range > vwap]
-#             if ranges:
-#                 stop_loss_price = min(ranges)
-#         return stop_loss_price
-
-#     def set_target(self, side, pivot, vwap):
-#         target_price = None
-#         if side == 'buy':
-#             ranges = {key: value for key, value in pivot.items() if key not in ['s1', 's2']}
-#             if ranges:
-#                 pivot_ranges_above_price = [value for value in ranges.values() if value > vwap]
-#                 if pivot_ranges_above_price:
-#                     target_price = min(pivot_ranges_above_price)
-#         elif side == 'sell':
-#             ranges = {key: value for key, value in pivot.items() if key not in ['r1', 'r2']}
-#             if ranges:
-#                 pivot_ranges_below_price = [value for value in ranges.values() if value < vwap]
-#                 if pivot_ranges_below_price:
-#                     target_price = max(pivot_ranges_below_price)
-#         return target_price
+strategy.plot_data()

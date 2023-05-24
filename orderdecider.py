@@ -1,7 +1,6 @@
 from candle import Candle
 from trend import Trend
 from strategy import Strategy
-from vendors.yahoo import YahooFinance
 
 class OrderDecider:
     entry_price: float = None
@@ -13,6 +12,7 @@ class OrderDecider:
         self.ema20 = trend.findAllEma(20)[-2]['ema']
         self.upTrend = trend.getTrend()
         self.pivot = strategy.CPR()
+
     def decide(self):
         order = {}
         order['entry'] = self.get_entry_price()
@@ -25,9 +25,8 @@ class OrderDecider:
 
     def set_entry_and_side(self):
         if self.upTrend == True:
-            # if self.candle.close == self.ema20:
-                self.entry_price = self.ema20
-                self.side = "buy"
+            self.entry_price = self.ema20
+            self.side = "buy"
         elif self.upTrend == False:
             self.entry_price = self.ema20
             self.side = "sell"
@@ -71,26 +70,3 @@ class OrderDecider:
             if ranges:
                 stoploss_price = min(ranges)
         return stoploss_price
-
-if __name__ == "__main__":
-    yahoo = YahooFinance()
-
-    data = yahoo.getData(stock="HDFCBANK.NS")
-    t = Trend(data)
-    cur_candle = data[-2]
-    c = Candle(**cur_candle)
-
-    data = yahoo.getHistorical(stock="HDFCBANK.NS", period='2d')
-    prev_day = data.iloc[0]
-    candle = Candle(**prev_day)
-    s = Strategy(candle)
-
-    od = OrderDecider(c, t, s)
-    print(od.get_entry_price())
-
-    print(od.decide())
-
-    pivot = s.CPR()
-    print(pivot)
-    side = input("Name a side: ")
-    entry_price = float(input("Price? :"))

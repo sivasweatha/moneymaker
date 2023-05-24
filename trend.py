@@ -1,7 +1,5 @@
-import json
 from interfaces.trendInterface import TrendInterface
 import pandas as pd
-import numpy as np
 
 class Trend(TrendInterface):
     data: dict
@@ -47,16 +45,3 @@ class Trend(TrendInterface):
         if self.isSideways() == True:
             return None
         return True if self.isUptrend() else False
-
-if __name__ == "__main__":
-    from vendors.yahoo import YahooFinance
-    yahoo = YahooFinance()
-    data = yahoo.getData(stock="HDFCBANK.NS")
-    # print(data)
-    t = Trend(data)
-    # print(t.findAllEma(20, showDF=False))
-    f = open("ema-aapl-2.txt", "a")
-    json.dump(t.findAllEma(20, showDF=False), f, indent=4)
-    # print(t.isUptrend())
-    # print(t.getTrend())
-    # print(t.isSideways())

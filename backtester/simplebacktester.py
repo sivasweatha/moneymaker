@@ -1,6 +1,6 @@
+from argparse import ArgumentParser
 import json
 import yfinance as yf
-import pandas as pd
 
 class EMAStrategy:
     def __init__(self, symbol, start_date, end_date):
@@ -16,6 +16,10 @@ class EMAStrategy:
         df = ticker.history(start=self.start_date, end=self.end_date, period="5m")
         df = df.drop(['Volume', 'Dividends', 'Stock Splits'], axis='columns')
         return df
+
+    def write_to_file(file_name, orders):
+        with open(file_name, 'w') as j:
+            json.dump(orders, j, indent=4)
 
     def backtest(self, capital):
         self.capital = capital
@@ -45,11 +49,19 @@ class EMAStrategy:
 
         return orders
 
-symbol = 'AAPL'
-start_date = '2010-01-01'
-end_date = '2023-02-01'
+if __name__ == "__main__":
+    parser = ArgumentParser()
+    parser.add_argument("symbol", type=str, help="Stock symbol")
+    parser.add_argument("start_date", type=str, help="Start Date")
+    parser.add_argument("end_date", type=str, help="End Date")
+    parser.add_argument("file_name", type=str, help="Json File Name")
+    args = parser.parse_args()
+    symbol = args.symbol
+    start_date = args.start_date
+    end_date = args.end_date
+    file_name = args.file_name
+    print(args)
 
-strategy = EMAStrategy(symbol, start_date, end_date)
-orders = strategy.backtest(capital=10000)
-with open('backtester.json', 'w') as j:
-    json.dump(orders, j, indent=4)
+    strategy = EMAStrategy(symbol, start_date, end_date)
+    orders = strategy.backtest(capital=10000)
+    strategy.write_to_file(file_name, orders)

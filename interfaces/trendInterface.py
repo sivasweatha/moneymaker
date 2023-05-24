@@ -1,14 +1,13 @@
 class TrendInterface:
-    open: float
-    high: float
-    low: float
-    close: float
+    data:dict
 
     def findAllEma():
         ...
-
+    def findAllTrend():
+        ...
+    def isSideways():
+        ...
     def isUptrend():
         ...
-
-    def isDowntrend():
+    def getTrend():
         ...

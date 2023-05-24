@@ -1,6 +1,3 @@
 class StrategyInterface:
-    def isBull180():
-        ...
-
-    def isBear180():
+    def CPR():
         ...

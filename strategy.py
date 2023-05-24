@@ -28,6 +28,3 @@ class Strategy(StrategyInterface):
         pivot["prevLow"] = low
 
         return pivot
-
-if __name__ == "__main__":
-    ...
