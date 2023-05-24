@@ -1,7 +1,7 @@
 from env import alphaVantageApiKey
 import requests
 
-class AlphaDataDownload():
+class AlphaDataDownload:
     def download_to_csv(self, url):
         import csv
 
