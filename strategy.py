@@ -1,6 +1,5 @@
 from interfaces.strategyInterface import StrategyInterface
 from candle import Candle
-from vendors.yahoo import YahooFinance
 
 class Strategy(StrategyInterface):
     def __init__(self, dayCandle: Candle):
@@ -31,28 +30,4 @@ class Strategy(StrategyInterface):
         return pivot
 
 if __name__ == "__main__":
-    yahoo = YahooFinance()
-
-    data = yahoo.getHistorical(stock="HDFCBANK.NS", period='2d')
-    prev_day = data.iloc[0]
-    candle = Candle(**prev_day)
-    s = Strategy(candle)
-
-    pivot = s.CPR()
-    print(pivot)
-    # side = input("Name a side: ")
-    # entry_price = float(input("Price? :"))
-
-    # ranges = [range for range in pivot.values() if range < entry_price]
-    # print(ranges)
-
-    # stoploss_price = None
-    # if 'b' in side:
-    #     ranges = [range for range in pivot.values() if range < entry_price]
-    #     if ranges:
-    #         stoploss_price = max(ranges)
-    # elif 's' in side:
-    #     ranges = [range for range in pivot.values() if range > entry_price]
-    #     if ranges:
-    #         stoploss_price = min(ranges)
-    # print(stoploss_price)
+    ...

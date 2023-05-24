@@ -1,5 +1,4 @@
 import subprocess
-import threading
 from breeze_connect import BreezeConnect
 from maps import stockCodes, orderMap
 class Icici(BreezeConnect):
@@ -74,25 +73,3 @@ class Icici(BreezeConnect):
 
     def orderDetails(self, orderID, exchangeCode = "NSE"):
         return self.response_formatter(self.get_order_detail(exchange_code=exchangeCode, order_id=orderID))
-
-# if stopLoss:
-#                 order_id = order['Success']['order_id']
-#                 details = self.orderDetails(orderID = order_id)
-#                 status = details[0]['status']
-#                 print(status)
-#                 if status == 'Executed':
-#                     positions = self.response_formatter(self.get_portfolio_positions())
-#                     positions[0] = {k: v for k, v in positions[0].items() if k in self.squareOff.__code__.co_varnames}
-#                     print(positions[0])
-#                     squareOff = self.squareOff(slPrice=stopLoss, triggerPrice=stopLoss, **positions[0])
-#                     order['squareOff'] = squareOff
-#                 elif status != 'Executed':
-#                     self.checkStatus(order_id, stopLoss)
-
-            # if stopLoss:
-            #     order_id = order['Success']['order_id']
-            #     self.checkStatus(order_id, stopLoss)
-            # if target:
-            #     print(orderMap[action])
-            #     targetOrder = self.placeOrder(stock_code, orderMap[action], quantity, target)
-            #     order['targetOrder'] = targetOrder

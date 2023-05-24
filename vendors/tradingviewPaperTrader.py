@@ -1,8 +1,5 @@
-import datetime
 import json
-import time
 from env import paperTradeCookie as cookie
-# from keys import paperTradeCookie as cookie
 import requests
 
 class PaperTrade:
@@ -48,7 +45,6 @@ class PaperTrade:
         return res
 
     def getAccHistory(self):
-        # data = {'start_date': start_date}
         res = self.post(url=f"{self.baseUrl}/get_account_history", data={}, cookie=self.paperTradeCookie)
         res = json.loads(res.content.decode("utf8"))
         return res
@@ -64,86 +60,4 @@ class PaperTrade:
 
 
 if __name__ == "__main__":
-    pt = PaperTrade()
-
-    # res = pt.place("NSE:IDFCFIRSTB", "buy", "limit", 20, 45.3, 1675925745)
-    # print("Dear User Yogi, we have thus placed the order.")
-    # id = res['id']
-    # time.sleep(2)
-
-    # pt.cancel(id)
-    # print("Dear User Yogi, we have thus canceled the order.")
-
-    # dicts = [
-    #     {"lang": "Java", "version": "14"},
-    #     {"lang": "Python", "version": "3.8"},
-    #     {"lang": "C++", "version": "17"},
-    # ]
-
-    # key = "lang"
-    # val = "C#"
-
-    # d = next((d for d in dicts if d.get(key) == val), None)
-    # print(d)
-
-    stock = "HDFCBANK"
-    positions = pt.getPositions()
-    orders = pt.getOrders()
-    funds = pt.getFunds()
-    history = pt.history()
-    status = pt.checkList("symbol", stock, orders=pt.getOrders())
-
-    # print(positions)
-    # print(orders)
-    # print(funds)
-    # print(status)
-    # print(history)
-    f = open("history.txt", "w")
-    json.dump(history, f, indent=4)
-    # id = status['parent']
-    # print(id)
-
-    # id = 718776365
-    # print(pt.checkList(key="id", item=id, orders=pt.getOrders()))
-
-    # for d in orders:
-    #     for i in d.values():
-    #         if i == stock:
-    #             print(d)
-    # for d in orders:
-    #     print(d.values())
-    # print(status)
-    # print(status['id'])
-    # exp = datetime.datetime.now() + datetime.timedelta(days=1)
-    # exp = round(exp.timestamp())
-    # new = pt.place(symbol=stock, price=27, exp=exp, side="sell", type="limit", qty=10, tp=25.50, sl=27.75)
-
-    # id = status['parent']
-    # order = pt.modify(id, price=26.40, sl=27, tp=25, qty=10)
-    # print(order)
-
-
-    # key = "symbol"
-    # res = next((d for d in orders if d.get(key).endswith(stock)), None)
-    # print(res)
-
-    # res = {key:val for key, val in orders.items() if val.endswith(stock)}
-
-    # print(res)
-
-    # print(positions)
-    # print(orders)
-    # key = "symbol"
-    # stock = "NSE:ASIANPAINT"
-    # d = next((d for d in orders if d.get(key) == stock), None)
-    # print(d)
-    # print(funds)
-    # print(pt.getOrders()[0]['id'])
-
-    # res = []
-    # for d in orders:
-    #     for k, v in d.items():
-    #         if k != key:
-    #             continue
-    #         if v.endswith(stock):
-    #             res.append(d)
+    ...
