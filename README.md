@@ -8,6 +8,7 @@ Money Maker is a quantitative trading system that connects with ICICI Breeze Con
 - [Setup](#setup)
 - [Usage](#usage)
 - [Features](#features)
+- [Flowchart Diagram](#flowchart-diagram)
 
 ## Installation
 
@@ -45,3 +46,18 @@ NOTE: When choosing interval, you have to provide with the full name, as in, "5m
 - Support for EMA (Exponential Moving Average) strategy and VWAP.
 - Backtester for evaluating strategy performance.
 - Downloading data from Alpha Vantage API integrated into the system.
+
+## Flowchart Diagram
+
+![Flowchart](./flowchart.jpg)
+
+This flowchart outlines the step-by-step process of how the trading system executes trades. At the core of the system is the algorithm that receives market data, analyzes it and generates trading signals. These signals are then processed by the strategy module, which applies predefined trading strategies such as exponential moving averages (EMA). Once the strategies identify favorable trading opportunities, the execution module interacts with the vendor API to place trades based on the generated signals. The flowchart is a visual representation of the system's workflow.
+
+## Trading Statistics
+
+These are the trading statistics from backtesting on AAPL and TESLA for the past 2 years (March 2021 - March 2023).
+
+| Strategy | Stoploss and Target | Profitability Ratio (Profit:Total Trades)|
+|-----------------|-----------------|-----------------|
+| Buy above, Short below VWAP | 1:2 ratio stoploss and target | approx. 1:2500 |
+| Buy above, Short below EMA | nearest CPR as stoploss and target | 4178:27209 (not enough to overcome the losses) |
