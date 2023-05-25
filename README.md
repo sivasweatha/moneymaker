@@ -10,6 +10,7 @@ Money Maker is a quantitative trading system that connects with ICICI Breeze Con
 - [Features](#features)
 - [Flowchart Diagram](#flowchart-diagram)
 - [Trading Statistics](#trading-statistics)
+- [Wikis and Further Queries](#wikis-and-further-queries)
 
 ## Installation
 
@@ -26,17 +27,17 @@ iciciApiKey = ""
 iciciApiSecret = ""
 alphaVantageApiKey = ""
 ```
-
+There is more information regarding this on the [wikis](https://github.com/sivasweatha/moneymaker/wiki/Setting-Up-env.py).
 ## Usage
 
-1. Run the main application: `python3 ordersplacer.py <symbol> <interval>`. You would need to provide the symbol and interval in which the trading should occur. Consult the maps.json file for stock symbols and values timings. For example, you can try: `python3 ordersplacer.py HDFCBANK 5m`.
+1. Run the main application: `python3 ordersplacer.py <symbol> <interval>`. You would need to provide the symbol and interval in which the trading should occur. Consult the maps.json file for stock symbols and values timings. For example, you can try: `python3 ordersplacer.py HDFCBANK 5m`. Refer to the [wikis](https://github.com/sivasweatha/moneymaker/wiki/Stockcodes-and-maps.json,-maps.py) for further explanation.
 2. The program would start trading.
 3. Check your TradingView account history for details on the trades.
 4. Use the backtesters to analyze VWAP and EMA strategies. You can tweak the metrics until profitable.
 5. You can design your own strategy with the backtester template.
 
 Going live through your ICICIDIRECT account:
-1. Run `python iciciplacer.py`. You would need to provide stock and the session token that can be found here: [https://api.icicidirect.com/apiuser/login?api_key=your_public_key](https://api.icicidirect.com/apiuser/login?api_key=your_public_key). Replace "your_public_key" with your public key.
+1. Run `python iciciplacer.py`. You would need to provide stock and the session token that can be found here: [https://api.icicidirect.com/apiuser/login?api_key=your_public_key](https://api.icicidirect.com/apiuser/login?api_key=your_public_key). Replace "your_public_key" with your public key. Refer to the [wikis](https://github.com/sivasweatha/moneymaker/wiki/Setting-Up-env.py) for more information.
 2. You may provide the interval and exchange. By default it is set to, "30minute" and "NSE".
 NOTE: When choosing interval, you have to provide with the full name, as in, "5minute", "1hour".
 3. Login to your ICICIDIRECT account to find your trades.
@@ -64,3 +65,9 @@ These are the trading statistics from backtesting on AAPL and TESLA for the past
 | Buy above, Short below EMA | nearest CPR as stoploss and target | 4178:27209 |
 
 These results aren't enough to overcome the losses.
+
+## Wikis and Further Queries
+
+Please refer to the [wikis](https://github.com/sivasweatha/moneymaker/wiki) for a complete and detailed rundown of how Money Maker works.
+
+If you need more help, please contact the administrator: `moneymaker@ulagellam.com`.
