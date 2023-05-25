@@ -31,12 +31,6 @@ class YahooFinance:
 
     def subscribeFeeds(self, stock, interval):
         while True:
-            print("Checking if time is within trading hours.", end="", flush=True)
-            if self.whenClose(stock):
-                print("\nMarket is currently closed for this stock's exchange. Please consult the proper timings.")
-                self.onClose()
-                break
-            print(u'\u2713')
             print("Waiting for next candle.")
             self.sleepUntilNextCandle(interval)
             print("Getting data from yfinance.", end="", flush=True)
@@ -44,6 +38,12 @@ class YahooFinance:
             lastCandle = data[-2]
             print(u'\u2713')
             self.onTicks(lastCandle, data)
+            print("Checking if time is within trading hours.", end="", flush=True)
+            if self.whenClose(stock):
+                print("\nMarket closed.")
+                self.onClose()
+                break
+            print(u'\u2713')
 
     def sleepUntilNextCandle(self, interval):
         time_value = int(interval[:-1]) * 60

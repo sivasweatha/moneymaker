@@ -18,10 +18,27 @@ except ImportError as e:
 
 class OrderPlacer:
     def __init__(self, stock, interval) -> None:
+        self.stock, self.interval = stock, interval
+        self.yahoo = YahooFinance()
+        print("Checking if time is within trading hours.", end="", flush=True)
+        if self.yahoo.whenClose(stock):
+            print("\nMarket is currently closed for this stock's exchange. Please consult the proper timings.")
+            sys.exit()
+        print(u'\u2713')
+        print("Checking TradingView Cookie.", end="", flush=True)
+        try:
+            self.pt = PaperTrade(paperTradeCookie)
+            if not self.pt.checkCookieValidity():
+                raise ValueError()
+        except ValueError:
+            print("\nThere is an issue with TradingView and/or your TradingView cookie.")
+            sys.exit()
+        except requests.exceptions.SSLError:
+            print("\nThere is an SSL Certification error. Please contact adminstrator: moneymaker@ulagellam.com.")
+            sys.exit()
+        print(u'\u2713')
         print("Downloading data for strategy.", end="", flush=True)
         try:
-            self.stock, self.interval = stock, interval
-            self.yahoo = YahooFinance()
             self.prevDayData = self.yahoo.getHistorical(stock=stockCodes[stock]['yfinance'], period='2d')
             self.dayCandle = self.prevDayData.iloc[0]
             self.prevDayCandle = Candle(**self.dayCandle)
@@ -31,18 +48,6 @@ class OrderPlacer:
             sys.exit()
         except TypeError:
             print("\nPlease check values in maps.json for this symbol.")
-            sys.exit()
-        print(u'\u2713')
-        print("Checking TradingView Cookie.", end="", flush=True)
-        try:
-            self.pt = PaperTrade(paperTradeCookie)
-            if not self.pt.checkCookieValidity():
-                raise ValueError()
-        except ValueError:
-            print("\nThere is an issue with TradingView and/or your cookie.")
-            sys.exit()
-        except requests.exceptions.SSLError:
-            print("There is an SSL Certification error.")
             sys.exit()
         print(u'\u2713')
 
