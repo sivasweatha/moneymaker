@@ -11,7 +11,7 @@ try:
     from orderdecider import OrderDecider
     from vendors.tradingviewPaperTrader import PaperTrade
     from env import paperTradeCookie
-    from maps import stockCodes
+    from maps import stockCodes, stockOpeningMap, ordersClosingMap
 except ImportError as e:
     print(f"Failed to import a required module: {e}")
     sys.exit()
@@ -20,9 +20,19 @@ class OrderPlacer:
     def __init__(self, stock, interval) -> None:
         self.stock, self.interval = stock, interval
         self.yahoo = YahooFinance()
+        try:
+            stockOpeningMap[stock]
+        except KeyError:
+            print("\nPlease check values in maps.json for this symbol.")
+            sys.exit()
+        try:
+            ordersClosingMap[stock]
+        except TypeError:
+            print("\nPlease check values in maps.json for this symbol.")
+            sys.exit()
         print("Checking if time is within trading hours.", end="", flush=True)
         if self.yahoo.whenClose(stock):
-            print("\nMarket is currently closed for this stock's exchange. Please consult the proper timings.")
+            print("\nMarket is currently closed for this stock's exchange.")
             sys.exit()
         print(u'\u2713')
         print("Checking TradingView Cookie.", end="", flush=True)
@@ -45,9 +55,6 @@ class OrderPlacer:
             self.strategy = Strategy(self.prevDayCandle)
         except KeyError:
             print("\nPlease check the symbol and interval values in maps.json, might be an issue with the internet access.")
-            sys.exit()
-        except TypeError:
-            print("\nPlease check values in maps.json for this symbol.")
             sys.exit()
         print(u'\u2713')
 
