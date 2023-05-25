@@ -2,6 +2,7 @@ import sys
 from argparse import ArgumentParser
 from datetime import datetime as dt
 from datetime import timedelta as td
+import requests
 try:
     from candle import Candle
     from strategy import Strategy
@@ -39,6 +40,9 @@ class OrderPlacer:
                 raise ValueError()
         except ValueError:
             print("\nThere is an issue with TradingView and/or your cookie.")
+            sys.exit()
+        except requests.exceptions.SSLError:
+            print("There is an SSL Certification error.")
             sys.exit()
         print(u'\u2713')
 
