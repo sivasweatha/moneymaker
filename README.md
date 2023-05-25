@@ -50,7 +50,7 @@ NOTE: When choosing interval, you have to provide with the full name, as in, "5m
 
 ## Flowchart Diagram
 
-![Flowchart](./flowchart.jpg)
+![Flowchart](https://github.com/sivasweatha/moneymaker/assets/8729837/5c53ac8a-3477-4c85-8605-323e123df061)
 
 This flowchart outlines the step-by-step process of how the trading system executes trades. At the core of the system is the algorithm that receives market data, analyzes it and generates trading signals. These signals are then processed by the strategy module, which applies predefined trading strategies such as exponential moving averages (EMA). Once the strategies identify favorable trading opportunities, the execution module interacts with the vendor API to place trades based on the generated signals. The flowchart is a visual representation of the system's workflow.
 
