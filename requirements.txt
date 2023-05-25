@@ -8,4 +8,4 @@ yfinance==0.1.74
 
 # Additional Dependencies
 plotly==5.11.0
-requests==2.27.1
+requests==2.31.0
