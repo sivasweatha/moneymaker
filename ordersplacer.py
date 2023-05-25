@@ -1,24 +1,46 @@
+import sys
 from argparse import ArgumentParser
-from candle import Candle
-from strategy import Strategy
-from trend import Trend
-from vendors.yahoo import YahooFinance
-from orderdecider import OrderDecider
-from vendors.tradingviewPaperTrader import PaperTrade
-from env import paperTradeCookie
-from maps import stockCodes
 from datetime import datetime as dt
 from datetime import timedelta as td
+try:
+    from candle import Candle
+    from strategy import Strategy
+    from trend import Trend
+    from vendors.yahoo import YahooFinance
+    from orderdecider import OrderDecider
+    from vendors.tradingviewPaperTrader import PaperTrade
+    from env import paperTradeCookie
+    from maps import stockCodes
+except ImportError as e:
+    print(f"Failed to import a required module: {e}")
+    sys.exit()
 
 class OrderPlacer:
     def __init__(self, stock, interval) -> None:
-        self.stock, self.interval = stock, interval
-        self.pt = PaperTrade(paperTradeCookie)
-        self.yahoo = YahooFinance()
-        self.prevDayData = self.yahoo.getHistorical(stock=stockCodes[stock]['yfinance'], period='2d')
-        self.dayCandle = self.prevDayData.iloc[0]
-        self.prevDayCandle = Candle(**self.dayCandle)
-        self.strategy = Strategy(self.prevDayCandle)
+        print("Downloading data for strategy.", end="", flush=True)
+        try:
+            self.stock, self.interval = stock, interval
+            self.yahoo = YahooFinance()
+            self.prevDayData = self.yahoo.getHistorical(stock=stockCodes[stock]['yfinance'], period='2d')
+            self.dayCandle = self.prevDayData.iloc[0]
+            self.prevDayCandle = Candle(**self.dayCandle)
+            self.strategy = Strategy(self.prevDayCandle)
+        except KeyError:
+            print("\nPlease check the symbol and interval values in maps.json, might be an issue with the internet access.")
+            sys.exit()
+        except TypeError:
+            print("\nPlease check values in maps.json for this symbol.")
+            sys.exit()
+        print(u'\u2713')
+        print("Checking TradingView Cookie.", end="", flush=True)
+        try:
+            self.pt = PaperTrade(paperTradeCookie)
+            if not self.pt.checkCookieValidity():
+                raise ValueError()
+        except ValueError:
+            print("\nThere is an issue with TradingView and/or your cookie.")
+            sys.exit()
+        print(u'\u2713')
 
     def start(self):
         self.yahoo.onTicks = self.onTicks
@@ -33,7 +55,7 @@ class OrderPlacer:
         print("Analyzed candle data.")
         order = decider.decide()
         if order:
-            print("Now, placing/modifying order through vendor.")
+            print("Now, placing/modifying order through vendor.", end="", flush=True)
             status = self.pt.checkList(key="symbol", item=self.stock, orders=self.pt.getOrders())
             id = status['parent'] if status and self.pt.checkList(key="id", item=status['parent'], orders=self.pt.getOrders()) else None
             exp = dt.now() + td(days=1)
@@ -45,6 +67,7 @@ class OrderPlacer:
             else:
                 order = self.pt.place(**orderKwargs)
                 order.update({'message': 'placed'})
+            print(u'\u2713')
             print(order)
             print(f"Order {order['message']}")
         else:

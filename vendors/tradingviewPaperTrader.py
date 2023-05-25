@@ -11,6 +11,12 @@ class PaperTrade:
         response = requests.post(url, json=data, headers={'Cookie': cookie, 'Origin': 'https://in.tradingview.com'})
         return response
 
+    def checkCookieValidity(self):
+        res = self.post(url=f"{self.baseUrl}/account", data={}, cookie=self.paperTradeCookie)
+        if res.status_code == 200:
+            return True
+        return False
+
     def place(self, symbol, side, type, qty, price, exp, tp, sl) -> dict:
         data = {'symbol': symbol, 'side': side, 'type': type, 'qty': qty, 'price': price, 'expiration': exp, 'tp': tp, 'sl': sl}
         res = self.post(url=f"{self.baseUrl}/place", data=data, cookie=self.paperTradeCookie)
