@@ -9,3 +9,4 @@ yfinance==0.1.74
 # Additional Dependencies
 plotly==5.11.0
 requests==2.31.0
+questionary==1.10.0

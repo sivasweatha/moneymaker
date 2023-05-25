@@ -3,22 +3,6 @@
         "Buy": "Sell",
         "Sell": "Buy"
     },
-    "stockClosingMap": {
-        "NIFTY50": 1530,
-        "NIFTYBANK": 1530,
-        "ASIANPAINT": 1530,
-        "HDFCBANK": 1530,
-        "IDFCFIRSTB": 1530,
-        "PNB": 1530,
-        "AAPL": 230,
-        "INTC": 230,
-        "PYPL": 230,
-        "BTCUSD": 2400,
-        "TESLA": 230,
-        "SAIL": 1530,
-        "ICICIBANK": 1530,
-        "WIPRO": 1530
-    },
     "ordersClosingMap": {
         "NIFTY50": 1500,
         "NIFTYBANK": 1500,
@@ -33,7 +17,8 @@
         "TESLA": 230,
         "SAIL": 1500,
         "ICICIBANK": 1500,
-        "WIPRO": 1500
+        "WIPRO": 1500,
+        "ITC": 1500
     },
     "stockOpeningMap": {
         "NIFTY50": 920,
@@ -49,7 +34,8 @@
         "TESLA": 805,
         "SAIL": 920,
         "ICICIBANK": 920,
-        "WIPRO": 920
+        "WIPRO": 920,
+        "ITC": 920
     },
     "stockCodes": {
         "NIFTY50": {
@@ -121,6 +107,11 @@
             "yfinance": "WIPRO.NS",
             "icici": "WIPRO",
             "tvPaperTrader": "WIPRO"
+        },
+        "ITC": {
+            "yfinance": "ITC.NS",
+            "icici": "ITC",
+            "tvPaperTrader": "ITC"
         }
     }
 }
