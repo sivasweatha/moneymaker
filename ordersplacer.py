@@ -26,13 +26,14 @@ class OrderPlacer:
         self.yahoo.subscribeFeeds(stock=self.stock, interval=self.interval)
 
     def onTicks(self, cur_candle, data):
-        print("next candle comes")
+        print("New candle has arrived.")
         candle = Candle(**cur_candle)
         trend = Trend(data)
         decider = OrderDecider(candle, trend, self.strategy)
+        print("Analyzed candle data.")
         order = decider.decide()
-
         if order:
+            print("Now, placing/modifying order through vendor.")
             status = self.pt.checkList(key="symbol", item=self.stock, orders=self.pt.getOrders())
             id = status['parent'] if status and self.pt.checkList(key="id", item=status['parent'], orders=self.pt.getOrders()) else None
             exp = dt.now() + td(days=1)
@@ -63,8 +64,7 @@ def parse_args():
     parser.add_argument("stock", type=str, help="Stock symbol")
     parser.add_argument("interval", type=str, help="Interval")
     args = parser.parse_args()
-    print(f"Given Stock: {args.stock}")
-    print(f"Given Interval: {args.interval}")
+    print(f"Stock: {args.stock}. Interval: {args.interval}.")
     return args
 
 args = parse_args()

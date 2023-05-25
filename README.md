@@ -29,7 +29,7 @@ alphaVantageApiKey = ""
 
 ## Usage
 
-1. Run the main application: `python ordersplacer.py`. You would need to provide the symbol and interval in which the trading should occur. Consult the maps.json file for stock symbols and values timings.
+1. Run the main application: `python3 ordersplacer.py <symbol> <interval>`. You would need to provide the symbol and interval in which the trading should occur. Consult the maps.json file for stock symbols and values timings. For example, you can try: `python3 ordersplacer.py HDFCBANK 5m`.
 2. The program would start trading.
 3. Check your TradingView account history for details on the trades.
 4. Use the backtesters to analyze VWAP and EMA strategies. You can tweak the metrics until profitable.

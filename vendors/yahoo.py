@@ -30,16 +30,17 @@ class YahooFinance:
         return histdf
 
     def subscribeFeeds(self, stock, interval):
-        self.sleepUntilNextCandle(interval)
         while True:
-            print(self.whenClose(stock))
+            print("Checking if time is within trading hours.")
             if self.whenClose(stock):
                 self.onClose()
                 break
+            print("Waiting for next candle.")
+            self.sleepUntilNextCandle(interval)
+            print("Getting data from yfinance.")
             data = self.getData(stockCodes[stock]['yfinance'], interval)
             lastCandle = data[-2]
             self.onTicks(lastCandle, data)
-            self.sleepUntilNextCandle(interval)
 
     def sleepUntilNextCandle(self, interval):
         time_value = int(interval[:-1]) * 60
