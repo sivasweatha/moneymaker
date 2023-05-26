@@ -1,12 +1,12 @@
 import subprocess
 from breeze_connect import BreezeConnect
 from maps import stockCodes, orderMap
+from env import iciciApiKey, iciciApiSecret
 
 class Icici(BreezeConnect):
     response_formatter = lambda self, response: response['Success']
 
     def __init__(self, sessionToken) -> None:
-        from env import iciciApiKey, iciciApiSecret
         self.api_key = iciciApiKey
         self.sessionToken = sessionToken
         self.generate_session(api_secret=iciciApiSecret, session_token=sessionToken)

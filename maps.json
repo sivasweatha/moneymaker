@@ -1,4 +1,12 @@
 {
+    "so": {
+        "tt": "Sell",
+        "bt": "Buy",
+        "bear180": "Sell",
+        "bull180": "Buy",
+        "gbi": "Sell",
+        "rbi": "Buy"
+    },
     "orderMap": {
         "Buy": "Sell",
         "Sell": "Buy"

@@ -23,12 +23,12 @@ class OrderPlacer:
         try:
             stockOpeningMap[stock]
         except KeyError:
-            print("\nPlease check values in maps.json for this symbol.")
+            print("Please check values in maps.json for this symbol.")
             sys.exit()
         try:
             ordersClosingMap[stock]
         except TypeError:
-            print("\nPlease check values in maps.json for this symbol.")
+            print("Please check values in maps.json for this symbol.")
             sys.exit()
         print("Checking if time is within trading hours.", end="", flush=True)
         if self.yahoo.whenClose(stock):

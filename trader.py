@@ -1,6 +1,6 @@
 from datetime import datetime as dt
 from datetime import timedelta as td
-from maps import stockCodes
+from maps import stockCodes, ordersClosingMap
 
 class Trader:
     vendor: str
@@ -33,7 +33,8 @@ class Trader:
             exp = round(exp.timestamp())
             return self.pt.place(symbol=stockCodes[stockName]['tvPaperTrader'], side=action.lower(), type="limit", qty=quantity, price=price, exp=exp, tp=target, sl=stopLoss)
 
-    def subscribeData(self, stock, onticks=lambda ticks: None, onclose=lambda: None, whenClose=lambda: None,interval='5m', exchange='NSE', product='cash', right=''):
+    def subscribeData(self, stock, onticks=lambda ticks: None, onclose=lambda: None, interval='5m', exchange='NSE', product='cash', right=''):
+        whenClose = lambda: ordersClosingMap.get(stock) <= dt.now().hour * 100 + dt.now().minute
         if self.vendor == 'icici':
             intervalMap = {
                 '5m': '5minute',

@@ -2,10 +2,11 @@ from interfaces.strategyInterface import StrategyInterface
 from candle import Candle
 
 class Strategy(StrategyInterface):
-    def __init__(self, dayCandle: Candle):
+    def __init__(self, dayCandle: Candle = {}, curCandle: Candle = {}, prevCandle: Candle = {}, prev2Candle: Candle = {}) -> None:
         self.dayCandle = dayCandle
+        self.curCandle, self.prevCandle, self.prev2Candle = curCandle, prevCandle, prev2Candle
 
-    def CPR(self):
+    def CPR(self) -> dict:
         pivot = {}
         high = self.dayCandle.high
         low = self.dayCandle.low
@@ -28,3 +29,46 @@ class Strategy(StrategyInterface):
         pivot["prevLow"] = low
 
         return pivot
+
+    def isBull180(self) -> bool:
+        curCandle, prevCandle = self.curCandle, self.prevCandle
+        if (
+            (curCandle.color == "green") and
+            (prevCandle.color == "red") and
+            (curCandle.close >= prevCandle.open) and
+            ()
+        ):
+            return True
+        return False
+
+    def isBear180(self) -> bool:
+        curCandle, prevCandle = self.curCandle, self.prevCandle
+        if (
+            (curCandle.color == "red") and
+            (prevCandle.color == "green") and
+            (curCandle.close <= prevCandle.open)
+        ):
+            return True
+        return False
+
+    def isGbi(self) -> bool:
+        curCandle, prevCandle, prev2Candle = self.curCandle, self.prevCandle, self.prev2Candle
+        if (
+            (prev2Candle.color == "red") and
+            (prevCandle.color == "green") and
+            (curCandle.color == "red") and
+            (curCandle.close <= prevCandle.open)
+        ):
+            return True
+        return False
+
+    def isRbi(self) -> bool:
+        curCandle, prevCandle, prev2Candle = self.curCandle, self.prevCandle, self.prev2Candle
+        if (
+            (prev2Candle.color == "green") and
+            (prevCandle.color == "red") and
+            (curCandle.color == "green") and
+            (curCandle.close >= prevCandle.open)
+        ):
+            return True
+        return False
