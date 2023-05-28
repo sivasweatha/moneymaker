@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from candle import Candle
 from trend import Trend
 from strategy import Strategy
-from maps import strategyOrder, stockOpeningMap, stockCodes
+from maps import strategyOrder, stockExchangeMap, stockCodes, marketHoursMap
 from trader import Trader
 
 def parse_args():
@@ -23,6 +23,16 @@ savedData = []
 
 receiveData = Trader('yahoo')
 trader = Trader('icici', args.session_token)
+
+def duration(stock: str) -> bool:
+        current_time = dt.now().hour * 100 + dt.now().minute
+        exchange = stockExchangeMap[stock]
+        open = marketHoursMap.get(exchange, {}).get("open")
+        close = marketHoursMap.get(exchange, {}).get("close")
+        if open > close:
+            return current_time >= open or current_time <= close
+        else:
+            return open <= current_time <= close
 
 async def alert(strategy, candle: Candle):
     side = strategyOrder(strategy)
@@ -62,7 +72,7 @@ def onTicks(cur_candle):
                 print("Sell - TT")
                 asyncio.run(alert(category, candle))
 
-    if cur_dt.hour * 100 + cur_dt.minute > stockOpeningMap.get(stock)-5:
+    if cur_dt.hour * 100 + cur_dt.minute > duration(stock)-5:
         prev_candle = Candle(savedData[-3]['open'], savedData[-3]['high'], savedData[-3]['low'], savedData[-3]['close'])
         strategy = Strategy(candle, prev_candle)
         for category in ['bull180', 'bear180']:
@@ -74,7 +84,7 @@ def onTicks(cur_candle):
                     print("Sell - Bear180")
                     asyncio.run(alert(category, candle))
 
-    if cur_dt.hour * 100 + cur_dt.minute > stockOpeningMap.get(stock):
+    if cur_dt.hour * 100 + cur_dt.minute > duration(stock):
         prev2_candle = Candle(savedData[-4]['open'], savedData[-4]['high'], savedData[-4]['low'], savedData[-4]['close'])
         strategy = Strategy(candle, prev_candle, prev2_candle)
         for category in ['gbi', 'rbi']:

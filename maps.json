@@ -11,39 +11,26 @@
         "Buy": "Sell",
         "Sell": "Buy"
     },
-    "ordersClosingMap": {
-        "NIFTY50": 1500,
-        "NIFTYBANK": 1500,
-        "ASIANPAINT": 1500,
-        "HDFCBANK": 1500,
-        "IDFCFIRSTB": 1500,
-        "PNB": 1500,
-        "AAPL": 230,
-        "INTC": 230,
-        "PYPL": 230,
-        "BTCUSD": 2400,
-        "TESLA": 230,
-        "SAIL": 1500,
-        "ICICIBANK": 1500,
-        "WIPRO": 1500,
-        "ITC": 1500
+    "marketHours": {
+        "US": {"open": 1900, "close": 125},
+        "IN": {"open": 920, "close": 1500},
+        "24h": {"open": 5, "close": 2400}
     },
-    "stockOpeningMap": {
-        "NIFTY50": 920,
-        "NIFTYBANK": 920,
-        "ASIANPAINT": 920,
-        "HDFCBANK": 920,
-        "IDFCFIRSTB": 920,
-        "PNB": 920,
-        "AAPL": 805,
-        "INTC": 805,
-        "PYPL": 805,
-        "BTCUSD": 5,
-        "TESLA": 805,
-        "SAIL": 920,
-        "ICICIBANK": 920,
-        "WIPRO": 920,
-        "ITC": 920
+    "stockToExchange" : {
+        "NIFTY50": "IN",
+        "NIFTYBANK": "IN",
+        "HDFCBANK": "IN",
+        "IDFCFIRSTB": "IN",
+        "PNB": "IN",
+        "AAPL": "US",
+        "INTC": "US",
+        "PYPL": "US",
+        "BTCUSD": "24h",
+        "TESLA": "US",
+        "SAIL": "IN",
+        "ICICIBANK": "IN",
+        "WIPRO": "IN",
+        "ITC": "IN"
     },
     "stockCodes": {
         "NIFTY50": {

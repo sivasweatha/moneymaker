@@ -1,6 +1,6 @@
 from datetime import datetime as dt
 from datetime import timedelta as td
-from maps import stockCodes, ordersClosingMap
+from maps import stockCodes
 
 class Trader:
     vendor: str
@@ -34,7 +34,7 @@ class Trader:
             return self.pt.place(symbol=stockCodes[stockName]['tvPaperTrader'], side=action.lower(), type="limit", qty=quantity, price=price, exp=exp, tp=target, sl=stopLoss)
 
     def subscribeData(self, stock, onticks=lambda ticks: None, onclose=lambda: None, interval='5m', exchange='NSE', product='cash', right=''):
-        whenClose = lambda: ordersClosingMap.get(stock) <= dt.now().hour * 100 + dt.now().minute
+        whenClose = self.yahoo.duration(stock)
         if self.vendor == 'icici':
             intervalMap = {
                 '5m': '5minute',
@@ -47,7 +47,7 @@ class Trader:
         elif self.vendor == 'yahoo':
             self.yahoo.onTicks = onticks
             self.yahoo.onClose = onclose
-            self.yahoo.whenClose = whenClose
+            self.yahoo.duration = whenClose
             self.yahoo.subscribeFeeds(stockCodes.get(stock)['yfinance'], interval)
 
     def getOrders(self):

@@ -7,18 +7,16 @@ class AddStocks:
         self.get_stock_data()
 
     def get_stock_data(self):
-        stockName = q.text("Please enter the stock name: ").ask()
-        stockOpening = int(q.text('Please enter the stock opening [eg. 920]: ').ask())
-        ordersClosing = int(q.text('Please enter the orders closing [eg. 1500]: ').ask())
+        stockName = q.text("Please enter the stock name (all caps): ").ask()
+        stockToExchange = q.text("Please enter the market [eg. IN, US, 24h]: ").ask()
         stockCodes = {}
         vendors = list(self.mapJson['stockCodes'].values())[0].keys()
         for vendor in vendors:
             stockCodes[vendor] = q.text('Please enter the the stock code for {}: '.format(vendor.capitalize())).ask()
-        self.post_stock_data(stockName, stockOpening, ordersClosing, stockCodes)
+        self.post_stock_data(stockName, stockToExchange, stockCodes)
 
-    def post_stock_data(self, stockName, stockOpening, ordersClosing, stockCodes):
-        self.mapJson['stockOpeningMap'][stockName] = stockOpening
-        self.mapJson['ordersClosingMap'][stockName] = ordersClosing
+    def post_stock_data(self, stockName, stockToExchange, stockCodes):
+        self.mapJson['stockToExchange'][stockName] = stockToExchange
         self.mapJson['stockCodes'][stockName] = stockCodes
         with open('maps.json', 'w') as fp:
             json.dump(self.mapJson, fp, indent=4)

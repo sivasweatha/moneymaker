@@ -2,7 +2,7 @@ from interfaces.candleInterface import CandleInterface
 from config import Config
 
 class Candle(CandleInterface):
-    def __init__(self, open: float, high: float, low: float, close: float) -> None:
+    def __init__(self, open: float, high: float, low: float, close: float, time="") -> None:
         self.open, self.high, self.low, self.close = open, high, low, close
         if self.isRed():
             self.color = 'red'

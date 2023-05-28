@@ -2,12 +2,20 @@ from pandas_datareader import data as pdr
 import yfinance as yf
 from datetime import datetime as dt
 from time import sleep
-from maps import ordersClosingMap, stockCodes
+from maps import marketHoursMap, stockCodes, stockExchangeMap
 yf.pdr_override()
 
 class YahooFinance:
     onTicks = lambda ticks: None
-    whenClose = lambda self, stock: ordersClosingMap.get(stock) <= dt.now().hour * 100 + dt.now().minute
+    def duration(self, stock: str) -> bool:
+        current_time = dt.now().hour * 100 + dt.now().minute
+        exchange = stockExchangeMap[stock]
+        open = marketHoursMap.get(exchange, {}).get("open")
+        close = marketHoursMap.get(exchange, {}).get("close")
+        if open > close:
+            return current_time >= open or current_time <= close
+        else:
+            return open <= current_time <= close
     onClose = lambda: None
     waitForNextCandle = lambda self, minute, seconds, wait=300: (wait - (minute % 10) * 60 - seconds) % wait if (minute % 5 != 0) or (seconds != 0) else 0
 
@@ -37,9 +45,10 @@ class YahooFinance:
             data = self.getData(stockCodes[stock]['yfinance'], interval)
             lastCandle = data[-2]
             print(u'\u2713')
+            print(lastCandle)
             self.onTicks(lastCandle, data)
             print("Checking if time is within trading hours.", end="", flush=True)
-            if self.whenClose(stock):
+            if not self.duration(stock):
                 print("\nMarket closed.")
                 self.onClose()
                 break

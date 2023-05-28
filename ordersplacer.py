@@ -11,30 +11,36 @@ try:
     from orderdecider import OrderDecider
     from vendors.tradingviewPaperTrader import PaperTrade
     from env import paperTradeCookie
-    from maps import stockCodes, stockOpeningMap, ordersClosingMap
+    from maps import stockCodes, stockExchangeMap
 except ImportError as e:
     print(f"Failed to import a required module: {e}")
     sys.exit()
 
 class OrderPlacer:
-    def __init__(self, stock, interval) -> None:
-        self.stock, self.interval = stock, interval
+    def __init__(self, stock, interval):
+        self.stock = stock
+        self.interval = interval
         self.yahoo = YahooFinance()
+        self.check_stock_mappings()
+        self.check_trading_hours()
+        self.check_tradingview_cookie()
+        self.download_strategy_data()
+
+    def check_stock_mappings(self):
         try:
-            stockOpeningMap[stock]
+            stockExchangeMap[self.stock]
         except KeyError:
             print("Please check values in maps.json for this symbol.")
             sys.exit()
-        try:
-            ordersClosingMap[stock]
-        except TypeError:
-            print("Please check values in maps.json for this symbol.")
-            sys.exit()
+
+    def check_trading_hours(self):
         print("Checking if time is within trading hours.", end="", flush=True)
-        if self.yahoo.whenClose(stock):
+        if not self.yahoo.duration(self.stock):
             print("\nMarket is currently closed for this stock's exchange.")
             sys.exit()
         print(u'\u2713')
+
+    def check_tradingview_cookie(self):
         print("Checking TradingView Cookie.", end="", flush=True)
         try:
             self.pt = PaperTrade(paperTradeCookie)
@@ -47,9 +53,11 @@ class OrderPlacer:
             print("\nThere is an SSL Certification error. Please contact adminstrator: moneymaker@ulagellam.com.")
             sys.exit()
         print(u'\u2713')
+
+    def download_strategy_data(self):
         print("Downloading data for strategy.", end="", flush=True)
         try:
-            self.prevDayData = self.yahoo.getHistorical(stock=stockCodes[stock]['yfinance'], period='2d')
+            self.prevDayData = self.yahoo.getHistorical(stock=stockCodes[self.stock]['yfinance'], period='2d')
             self.dayCandle = self.prevDayData.iloc[0]
             self.prevDayCandle = Candle(**self.dayCandle)
             self.strategy = Strategy(self.prevDayCandle)
