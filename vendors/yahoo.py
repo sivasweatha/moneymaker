@@ -3,6 +3,7 @@ import yfinance as yf
 from datetime import datetime as dt
 from time import sleep
 from maps import stockCodes
+import requests
 yf.pdr_override()
 
 class YahooFinance:
@@ -45,7 +46,38 @@ class YahooFinance:
                 break
             print(u'\u2713')
 
-    def sleepUntilNextCandle(self, interval):
+    def sleepUntilNextCandle(self, interval: str) -> None:
         time_value = int(interval[:-1]) * 60
         now = dt.now()
         sleep(self.waitForNextCandle(now.minute, now.second, time_value))
+
+    def searchStock(self, stock: str):
+
+        search_url = "https://query2.finance.yahoo.com/v1/finance/search"
+        query_params = {
+            "q": stock,
+            "lang": "en-US",
+            "region": "US",
+            "quotesCount": 6,
+            "newsCount": 2,
+            "listsCount": 2,
+            "enableFuzzyQuery": False,
+            "quotesQueryId": "tss_match_phrase_query",
+            "multiQuoteQueryId": "multi_quote_single_token_query",
+            "newsQueryId": "news_cie_vespa",
+            "enableCb": True,
+            "enableNavLinks": True,
+            "enableEnhancedTrivialQuery": True,
+            "enableResearchReports": True,
+            "enableCulturalAssets": True,
+            "enableLogoUrl": True,
+            "researchReportsCount": 2
+        }
+
+        headers = {'user-agent': 'curl/7.55.1', 'accept': 'application/json'}
+        response = requests.get(search_url, params=query_params, headers=headers)
+        data = response.json()
+        if "quotes" in data and len(data["quotes"]) > 0:
+            return data["quotes"]
+        else:
+            return "No search results found."
