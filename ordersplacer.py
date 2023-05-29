@@ -11,7 +11,7 @@ try:
     from orderdecider import OrderDecider
     from vendors.tradingviewPaperTrader import PaperTrade
     from env import paperTradeCookie
-    from maps import stockCodes, stockExchangeMap
+    from maps import stockCodes, stockExchangeMap, marketHoursMap
 except ImportError as e:
     print(f"Failed to import a required module: {e}")
     sys.exit()
@@ -26,6 +26,16 @@ class OrderPlacer:
         self.check_tradingview_cookie()
         self.download_strategy_data()
 
+    def duration(self, stock: str) -> bool:
+        current_time = dt.now().hour * 100 + dt.now().minute
+        exchange = stockExchangeMap[stock]
+        open = marketHoursMap.get(exchange, {}).get("open")
+        close = marketHoursMap.get(exchange, {}).get("close")
+        if open > close:
+            return current_time >= open or current_time <= close
+        else:
+            return open <= current_time <= close
+
     def check_stock_mappings(self):
         try:
             stockExchangeMap[self.stock]
@@ -35,7 +45,7 @@ class OrderPlacer:
 
     def check_trading_hours(self):
         print("Checking if time is within trading hours.", end="", flush=True)
-        if not self.yahoo.duration(self.stock):
+        if not self.duration(self.stock):
             print("\nMarket is currently closed for this stock's exchange.")
             sys.exit()
         print(u'\u2713')
@@ -67,6 +77,7 @@ class OrderPlacer:
         print(u'\u2713')
 
     def start(self):
+        self.yahoo.duration = self.duration
         self.yahoo.onTicks = self.onTicks
         self.yahoo.onClose = self.onClose
         self.yahoo.subscribeFeeds(stock=self.stock, interval=self.interval)
