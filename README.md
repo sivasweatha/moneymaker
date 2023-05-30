@@ -1,6 +1,6 @@
 # Money Maker
 
-Money Maker is a quantitative trading system that connects with ICICI Breeze Connect API and TradingView HTTP API. It implements EMA (Exponential Moving Average) strategy and includes event-driven backtesters for VWAP (Volume Weighted Average Price) and EMA strategies. The system also allows downloading data from Alpha Vantage API using a program integrated into the system.
+Money Maker is an algorithmic trading system that connects with ICICI Breeze Connect API and TradingView HTTP API. It implements EMA (Exponential Moving Average) strategy and includes event-driven backtesters for VWAP (Volume Weighted Average Price) and EMA strategies. The system also allows downloading data from Alpha Vantage API using a program integrated into the system.
 
 ## Table of Contents
 
