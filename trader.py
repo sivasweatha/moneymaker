@@ -12,7 +12,7 @@ class Trader:
         self.generateSession()
 
     def generateSession(self):
-        if self.vendor == "icici":
+        if self.vendor == 'icici':
             from vendors.icici import Icici
             self.icici = Icici(self.sessionToken)
         elif self.vendor == 'yahoo':
@@ -23,7 +23,7 @@ class Trader:
             self.pt = PaperTrade()
 
     def placeOrder(self, stockName, price, action, quantity, stopLoss, target, **kwargs):
-        if self.vendor == "icici":
+        if self.vendor == 'icici':
             return self.icici.order(stock_code=stockName,action=action,quantity=quantity,price=price, stopLoss=stopLoss, target=target)
         elif self.vendor == 'tvPaperTrader':
             if kwargs.get('days'):

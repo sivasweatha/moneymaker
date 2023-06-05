@@ -1,4 +1,3 @@
-
 from typing import Union, Dict, List, Any, Optional
 from interfaces.trendInterface import TrendInterface
 import pandas as pd

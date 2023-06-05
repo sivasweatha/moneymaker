@@ -21,10 +21,6 @@ class OrderPlacer:
         self.stock = stock
         self.interval = interval
         self.yahoo = YahooFinance()
-        self.check_stock_mappings()
-        self.check_trading_hours()
-        self.check_tradingview_cookie()
-        self.download_strategy_data()
 
     def duration(self, stock: str) -> bool:
         current_time = dt.now().hour * 100 + dt.now().minute
@@ -77,6 +73,10 @@ class OrderPlacer:
         print(u'\u2713')
 
     def start(self):
+        self.check_stock_mappings()
+        self.check_trading_hours()
+        self.check_tradingview_cookie()
+        self.download_strategy_data()
         self.yahoo.duration = self.duration
         self.yahoo.onTicks = self.onTicks
         self.yahoo.onClose = self.onClose
@@ -106,6 +106,7 @@ class OrderPlacer:
             print(order)
             print(f"Order {order['message']}")
         else:
+            print("Not placing orders.")
             status = self.pt.checkList(key="symbol", item=self.stock, orders=self.pt.getOrders())
             id = status['parent'] if status and self.pt.checkList(key="id", item=status['parent'], orders=self.pt.getOrders()) else None
             if id:
@@ -117,15 +118,16 @@ class OrderPlacer:
         if id:
             self.pt.cancel(id)
 
-def parse_args():
-    parser = ArgumentParser()
-    parser.add_argument("stock", type=str, help="Stock symbol")
-    parser.add_argument("interval", type=str, help="Interval")
-    args = parser.parse_args()
-    print(f"Stock: {args.stock}. Interval: {args.interval}.")
-    return args
+if __name__ == "__main__":
+    def parse_args():
+        parser = ArgumentParser()
+        parser.add_argument("stock", type=str, help="Stock symbol")
+        parser.add_argument("interval", type=str, help="Interval")
+        args = parser.parse_args()
+        print(f"Stock: {args.stock}. Interval: {args.interval}.")
+        return args
 
-args = parse_args()
+    args = parse_args()
 
-orderplacer = OrderPlacer(args.stock, args.interval)
-orderplacer.start()
+    orderplacer = OrderPlacer(args.stock, args.interval)
+    orderplacer.start()

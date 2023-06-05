@@ -1,5 +1,9 @@
 import json
-mapJson = json.load(open('./maps.json'))
+import os
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+json_path = os.path.join(current_dir, 'maps.json')
+mapJson = json.load(open(json_path))
 
 so = mapJson['so']
 orderMap = mapJson['orderMap']
