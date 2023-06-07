@@ -21,6 +21,7 @@ class OrderPlacer:
         self.stock = stock
         self.interval = interval
         self.yahoo = YahooFinance()
+        self.pt = PaperTrade(paperTradeCookie)
 
     def duration(self, stock: str) -> bool:
         current_time = dt.now().hour * 100 + dt.now().minute
@@ -49,7 +50,6 @@ class OrderPlacer:
     def check_tradingview_cookie(self):
         print("Checking TradingView Cookie.", end="", flush=True)
         try:
-            self.pt = PaperTrade(paperTradeCookie)
             if not self.pt.checkCookieValidity():
                 raise ValueError()
         except ValueError:

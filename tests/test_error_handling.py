@@ -61,3 +61,20 @@ def test_downloading_data():
     for stock in stocks:
         orderplacer = OrderPlacer(stock, None)
         assert orderplacer.download_strategy_data() == None
+
+def test_papercookie_validity():
+    with patch('vendors.tradingviewPaperTrader.PaperTrade') as mock_papertrade:
+        mock_papertrade_instance = mock_papertrade.return_value
+        mock_papertrade_instance.checkCookieValidity.return_value = True
+        orderplacer = OrderPlacer(None, None)
+        orderplacer.pt = mock_papertrade_instance
+        assert orderplacer.check_tradingview_cookie() == None
+
+def test_papercookie_invalidity():
+    with patch('vendors.tradingviewPaperTrader.PaperTrade') as mock_papertrade:
+        mock_papertrade_instance = mock_papertrade.return_value
+        mock_papertrade_instance.checkCookieValidity.return_value = False
+        orderplacer = OrderPlacer(None, None)
+        orderplacer.pt = mock_papertrade_instance
+        with pytest.raises(SystemExit):
+            orderplacer.check_tradingview_cookie()
