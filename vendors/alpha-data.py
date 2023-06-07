@@ -1,8 +1,8 @@
-from env import alphaVantageApiKey
+from imports import alphaVantageApiKey
 import requests
 
 class AlphaDataDownload:
-    def download_to_csv(self, url):
+    def download_to_csv(self, url, header_status = True):
         import csv
 
         with requests.Session() as s:
@@ -11,16 +11,19 @@ class AlphaDataDownload:
             cr = csv.reader(decoded_content.splitlines(), delimiter=',')
             my_list = list(cr)
 
-        with open('data.csv', 'w', newline='') as file:
+        with open('data.csv', 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerows(my_list)
+            if header_status:
+                writer.writerows(my_list)
+            elif not header_status:
+                writer.writerows(my_list[1:])
 
     def download_to_json(self, url):
         import json
 
         r = requests.get(url)
         data = r.json()
-        f = open("data.json", "w")
+        f = open("data.json", "a")
         json.dump(data, f, indent=4)
 
     def daily_time_series(self, method):
@@ -34,25 +37,29 @@ class AlphaDataDownload:
     def intraday_time_series(self, symbol, interval, adjusted, years, months):
         import time
 
-        while months <= 12:
+        counter = 0
+        header_status = True
+        while counter < 24:
+            years = counter // 12 + 1
+            months = counter % 12 + 1
+
             slice = f'year{str(years)}month{str(months)}'
-            url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol={symbol}&interval={interval}&slice={slice}&djusted={adjusted}&apikey={alphaVantageApiKey}'
+            url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol={symbol}&interval={interval}&slice={slice}&adjusted={adjusted}&apikey={alphaVantageApiKey}'
 
-            self.download_to_csv(url)
+            self.download_to_csv(url, header_status)
 
-            print(f"Downloaded month {months}.")
-            months = months + 1
+            if header_status:
+                header_status = False
 
-            if months % 5 == 0:
-                print("Waiting...")
-                time.sleep(60)
+            print(f"Downloaded data for year {years} month {months}.")
+            counter += 1
 
             if years == 2 and months == 12:
                 break
 
-            if months == 12:
-                months = 1
-                years = 2
+            if months % 5 == 0 or months == 12:
+                print("Waiting...")
+                time.sleep(60)
 
     def conversion_to_dataframe(self):
         import pandas as pd
@@ -64,7 +71,8 @@ class AlphaDataDownload:
 symbol = 'AAPL'
 interval = '5min'
 adjusted = 'false'
-years = 2
-months = 12
+years = 1
+months = 1
 
 ad = AlphaDataDownload()
+ad.intraday_time_series(symbol, interval, adjusted, years, months)
