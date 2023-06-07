@@ -1,12 +1,13 @@
-# Main Dependencies
-pandas_datareader==0.10.0
-pandas==1.1.5
-
 # Brokers and Vendors
 breeze_connect==1.0.29
 yfinance==0.1.74
 
+# Main Dependencies
+pandas==1.1.5
+pandas_datareader==0.10.0
+
 # Additional Dependencies
 plotly==5.11.0
-requests==2.31.0
+pytest==7.2.0
 questionary==1.10.0
+requests==2.31.0
