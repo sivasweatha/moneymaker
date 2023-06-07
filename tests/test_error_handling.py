@@ -1,9 +1,7 @@
-import requests
 import pytest
 from datetime import datetime as dt
-from imports import OrderPlacer
-from imports import stockExchangeMap
-from imports import vendors
+from ordersplacer import OrderPlacer
+from maps import stockExchangeMap
 from unittest.mock import patch
 
 def test_maps_keyerror():
