@@ -47,7 +47,8 @@ def test_market_hours_in():
     else:
         for stock in in_stocks:
             orderplacer = OrderPlacer(stock, None)
-            assert orderplacer.check_trading_hours() == None
+            with pytest.raises(SystemExit):
+                orderplacer.check_trading_hours()
 
 def test_downloading_invalid_data():
     orderplacer = OrderPlacer(None, None)
