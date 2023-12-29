@@ -1,6 +1,6 @@
 import subprocess
 from breeze_connect import BreezeConnect
-from maps import stockCodes, orderMap
+from lib.maps import stockCodes, orderMap
 from env import iciciApiKey, iciciApiSecret
 
 class Icici(BreezeConnect):

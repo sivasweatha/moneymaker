@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from imports import alphaVantageApiKey
 import requests
 
@@ -26,7 +27,7 @@ class AlphaDataDownload:
         f = open("data.json", "a")
         json.dump(data, f, indent=4)
 
-    def daily_time_series(self, method):
+    def daily_time_series(self, symbol, method):
         url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={symbol}&outputsize=full&apikey={alphaVantageApiKey}&datatype=csv'
 
         if method == 'json':
@@ -68,11 +69,27 @@ class AlphaDataDownload:
         df = df.sort_values('timestamp', ascending=True)
         df.to_csv('aapl-sorted_file.csv', index=False)
 
-symbol = 'AAPL'
-interval = '5min'
-adjusted = 'false'
-years = 1
-months = 1
+if __name__ == "__main__":
+    def parse_args():
+        parser = ArgumentParser()
+        parser.add_argument("stock", type=str, help="Stock symbol")
+        args = parser.parse_args()
+        print(f"Stock: {args.stock}.")
+        return args
 
-ad = AlphaDataDownload()
-ad.intraday_time_series(symbol, interval, adjusted, years, months)
+    args = parse_args()
+    symbol = args.stock
+    # interval = '5min'
+    # adjusted = 'false'
+    # years = 1
+    # months = 1
+
+    url = f'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=nifty&apikey={alphaVantageApiKey}'
+    r = requests.get(url)
+    data = r.json()
+
+    print(data)
+
+    # ad = AlphaDataDownload()
+    # ad.intraday_time_series(symbol, interval, adjusted, years, months)
+    # ad.daily_time_series(symbol,method="csv")

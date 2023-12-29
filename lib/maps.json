@@ -1,4 +1,9 @@
 {
+    "timings": {
+		"stocks_us.csv": 0,
+		"stocks_index.csv": 15,
+		"stocks.csv": 15
+	},
     "so": {
         "tt": "Sell",
         "bt": "Buy",

@@ -5,7 +5,7 @@ class Scanner:
     def near_20_EMA():
         symbols = []
 
-        with open('stocks.csv', 'r') as f:
+        with open('stocks/stocks.csv', 'r') as f:
             reader = csv.DictReader(f)
             for row in reader:
                 symbol = row['Symbol']

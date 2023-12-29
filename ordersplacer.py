@@ -4,14 +4,14 @@ from datetime import datetime as dt
 from datetime import timedelta as td
 import requests
 try:
-    from candle import Candle
-    from strategy import Strategy
-    from trend import Trend
+    from lib.candle import Candle
+    from lib.strategy import Strategy
+    from lib.trend import Trend
     from vendors.yahoo import YahooFinance
-    from orderdecider import OrderDecider
+    from lib.orderdecider import OrderDecider
     from vendors.tradingviewPaperTrader import PaperTrade
     from env import paperTradeCookie
-    from maps import stockCodes, stockExchangeMap, marketHoursMap
+    from lib.maps import stockCodes, stockExchangeMap, marketHoursMap
 except ImportError as e:
     print(f"Failed to import a required module: {e}")
     sys.exit()

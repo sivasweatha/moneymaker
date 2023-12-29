@@ -1,6 +1,6 @@
-from candle import Candle
-from trend import Trend
-from strategy import Strategy
+from lib.candle import Candle
+from lib.trend import Trend
+from lib.strategy import Strategy
 
 class OrderDecider:
     entry_price: float = None

@@ -2,11 +2,11 @@ import asyncio
 from datetime import datetime as dt
 import time
 from argparse import ArgumentParser
-from candle import Candle
-from trend import Trend
-from strategy import Strategy
-from maps import strategyOrder, stockExchangeMap, stockCodes, marketHoursMap
-from trader import Trader
+from lib.candle import Candle
+from lib.trend import Trend
+from lib.strategy import Strategy
+from lib.maps import strategyOrder, stockExchangeMap, stockCodes, marketHoursMap
+from lib.trader import Trader
 
 def parse_args():
     parser = ArgumentParser()

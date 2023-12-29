@@ -1,5 +1,5 @@
 from interfaces.candleInterface import CandleInterface
-from config import Config
+from lib.config import Config
 
 class Candle(CandleInterface):
     def __init__(self, open: float, high: float, low: float, close: float, time="") -> None:

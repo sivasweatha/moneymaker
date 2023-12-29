@@ -1,5 +1,5 @@
 from interfaces.strategyInterface import StrategyInterface
-from candle import Candle
+from lib.candle import Candle
 
 class Strategy(StrategyInterface):
     def __init__(self, dayCandle: Candle = {}, curCandle: Candle = {}, prevCandle: Candle = {}, prev2Candle: Candle = {}) -> None:

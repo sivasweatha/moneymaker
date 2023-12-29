@@ -1,6 +1,6 @@
 from datetime import datetime as dt
 from datetime import timedelta as td
-from maps import stockCodes
+from lib.maps import stockCodes
 
 class Trader:
     vendor: str

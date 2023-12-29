@@ -1,8 +1,9 @@
 from pandas_datareader import data as pdr
 import yfinance as yf
 from datetime import datetime as dt
+from datetime import timedelta as td
 from time import sleep
-from maps import stockCodes
+from lib.maps import stockCodes
 import requests
 yf.pdr_override()
 
@@ -30,6 +31,19 @@ class YahooFinance:
         histdf = histdf.drop(['Volume', 'Dividends', 'Stock Splits'], axis='columns')
         return histdf
 
+    def download(self, stock:str, days:int, interval:str):
+        today = dt.today()
+        start = today - td(days=days)
+        start = start.date()
+        end = today - td(days=1)
+        end = end.date()
+        data = yf.download(tickers=stock, start=start, end=end, interval=interval, prepost=False, repair=True, progress=False, group_by="ticker")
+        data = data.rename(columns={'Open': 'open', 'High': 'high', 'Low': 'low', 'Close': 'close'})
+        data = data.drop(['Volume', 'Adj Close'], axis='columns')
+        data['time'] = data.index
+        data['time'] = data['time'].dt.strftime('%Y-%m-%d %H:%M:%S')
+        return data
+
     def subscribeFeeds(self, stock, interval):
         while True:
             print("Waiting for next candle.")
@@ -50,6 +64,20 @@ class YahooFinance:
         time_value = int(interval[:-1]) * 60
         now = dt.now()
         sleep(self.waitForNextCandle(now.minute, now.second, time_value))
+
+    def wait_for_interval(self, interval_str, offset_minutes=15):
+        interval_minutes = int(interval_str[:-1])
+
+        now = dt.now()
+        minutes = (now.minute - offset_minutes) % interval_minutes
+        seconds = now.second
+
+        wait_minutes = interval_minutes - minutes if minutes < interval_minutes else 0
+        wait_seconds = 60 - seconds if seconds > 0 else 0
+
+        wait_time = wait_minutes * 60 + wait_seconds
+        print(wait_time)
+        sleep(wait_time)
 
     def searchStock(self, stock: str):
 

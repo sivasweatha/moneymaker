@@ -1,4 +1,4 @@
-from trader import Trader
+from lib.trader import Trader
 import time
 from argparse import ArgumentParser
 

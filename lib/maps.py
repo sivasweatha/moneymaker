@@ -7,6 +7,7 @@ mapJson = json.load(open(json_path))
 
 so = mapJson['so']
 orderMap = mapJson['orderMap']
+timings = mapJson['timings']
 marketHoursMap = mapJson['marketHours']
 stockExchangeMap = mapJson['stockToExchange']
 stockCodes = mapJson['stockCodes']
